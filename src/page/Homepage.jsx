@@ -3,6 +3,7 @@ import "./HomePage.css"
 import Homepage_SpaceCenter_Image from "../assets/Homepage_SpaceCenter_Image.jpg"
 import SpaceImage from "../assets/Homepage_Space Image.png"
 import SpaceShuttle from "../assets/Space-Shuttle.png"
+import DataTable from "../components/DataTable";
 
 //Homepage component
 class HomePage extends React.Component {
@@ -10,10 +11,12 @@ class HomePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            scrollHeight: 0, bgImg1Scale: 1.2, bgImg2Scale: 3, shuttleImgScale: 1,
+            scrollHeight: 0, bgImg1Scale: 1.2, bgImg2Scale: 3, shuttleImgScale: 1, searchQuery: "", searchBy: "status",
+            responseData: []
         };
         this.scrollRef = React.createRef();
         this.initialBackgroundImg = "width: 100%;height: 100%;object-fit: cover;opacity: 0.7;position: absolute;transform: scale(120%)  translate(-8%, -8%);"
+
     }
 
     handleScroll = () => {
@@ -33,12 +36,9 @@ class HomePage extends React.Component {
                     clearInterval(bottomSetInterval)
                 }
             }, 30)
-
         } else if (window.scrollY === 2 * window.innerHeight) {
             bgImg2.style = `opacity :1`
-
         } else {
-
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
             const maxScroll = 500;
             const maxScroll2 = 1000;
@@ -54,11 +54,42 @@ class HomePage extends React.Component {
             spaceShuttle.style = `transform : scale(${shuttleImgScale}); bottom : ${shuttleImgScale * 2}vw`
             banner.style.opacity = Math.abs(1 - (scrollTop) / 800);
 
-            console.log("Scrolling...", window.innerHeight);
-            // bgImg2.style.opacity = Math.abs(1 - (1 - (scrollTop) / 800));
-
             bgImg2.style = `transform : scale(${bgImg2Scale}); opacity : ${Math.abs(1 - (1.5 - (scrollTop) / 800))}`
         }
+    };
+
+    handleInputChange = (event) => {
+        const {name, value} = event.target;
+
+        this.setState({[name]: value}, () => {
+            const {searchQuery, searchBy} = this.state;
+        });
+    };
+
+    handleSearchSubmit = (event) => {
+        event.preventDefault();
+
+        const {searchQuery, searchBy} = this.state;
+
+        // Prepare form data to be sent to the PHP API
+        const formData = new FormData();
+        formData.append('searchQuery', searchQuery);
+        formData.append('searchBy', searchBy);
+
+        // Send the POST request to the PHP API
+        fetch('http://localhost:8000/api.php', {
+            method: 'POST', body: formData,
+        })
+            .then((response) => response.json())
+            .then((responseData) => {
+                // Handle the API response
+                this.setState({responseData})
+                console.log("Response : ", typeof responseData);
+            })
+            .catch((error) => {
+                // Handle any errors
+                console.error(error);
+            });
     };
 
     componentDidMount() {
@@ -70,7 +101,8 @@ class HomePage extends React.Component {
     }
 
     render() {
-        const {scrollHeight} = this.state;
+        const {scrollHeight, searchQuery, searchBy} = this.state;
+
         return (<>
             <div className="homepage" ref={this.scrollRef} onScroll={this.handleScroll}>
                 <div className="banner" id="banner-id">
@@ -82,17 +114,54 @@ class HomePage extends React.Component {
                 </div>
                 <div className="banner2" id="banner2-id">
                     <img src={SpaceImage} alt="Base Space Station Image" id="bg-img2-id"/>
-                    <div className="search-bar">
-                        <label htmlFor="search-field" id="search-field-label-id"> Search : </label>
-                        <input type="text" id="search-field"/>
-                        <label htmlFor="search-by" id="search-by-label-id">Search By : </label>
-                        <select name="search-type" id="search-type-option-id">
-                            <option value="status">Status</option>
-                            <option value="original_launch">Original Launch</option>
-                            <option value="type">Type</option>
-                        </select>
-                    </div>
+                    <form id="search-form-id" onSubmit={this.handleSearchSubmit}>
+
+                        <div className="search-bar">
+                            <label htmlFor="search-by" id="search-by-label-id">Search By : </label>
+                            <select name="searchBy" id="search-type-option-id" required={true}
+                                    value={searchBy}
+                                    onChange={this.handleInputChange}>
+                                <option value="status">Status</option>
+                                <option value="type">Type</option>
+                                <option value="reuse_count">Reuse Counts</option>
+                            </select>
+                            {searchBy === "status" ? (<>
+                                <label htmlFor="search-field" id="search-field-label-id"> Status : </label>
+                                <select name="searchQuery" id="search-field"
+                                        value={searchQuery}
+                                        onChange={this.handleInputChange}
+                                        required={true}
+                                >
+                                    <option value="active">Active</option>
+                                    <option value="unknown">Unknown</option>
+                                    <option value="retired">Retired</option>
+                                </select></>) : searchBy === "reuse_count" ? (<>
+                                <label htmlFor="search-field" id="search-field-label-id"> Reuse Counts
+                                    : </label>
+                                <input type="number" id="search-field" name="searchQuery" value={searchQuery}
+                                       max="10" min="1"
+                                       onChange={this.handleInputChange}/>
+                            </>) : (<>
+                                    <label htmlFor="search-field" id="search-field-label-id"> Type
+                                        : </label>
+                                    <select name="searchQuery" id="search-field" value={searchQuery}
+                                            onChange={this.handleInputChange} required={true}>
+                                        <option value="Dragon 1.0">Dragon 1.0</option>
+                                        <option value="Dragon 1.1">Dragon 1.1</option>
+                                        <option value="Dragon 2.0">Dragon 2.0</option>
+                                    </select></>
+                            )}
+
+                            <button type="submit" id="submit-btn">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
                     <div className="data-grid" id="data-grid-id">
+                        {
+                            this.state.responseData.length > 0 ? (
+                                <DataTable responseData={this.state.responseData}/>) : ""
+                        }
 
                     </div>
                 </div>
