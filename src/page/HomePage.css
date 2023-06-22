@@ -1,6 +1,5 @@
 /*Homepage div*/
 .homepage {
-    /*border: 2px solid red;*/
     width: 100%;
     height: fit-content;
     overflow: auto;
@@ -9,7 +8,6 @@
 }
 
 .homepage .banner {
-    /*border: 3px solid green;*/
     background-color: black;
     width: 100%;
     height: 100vh;
@@ -33,7 +31,6 @@
 }
 
 p#welcome-title-id {
-    /*border: 1px solid red;*/
     width: 100%;
     height: fit-content;
     margin: auto;
@@ -52,7 +49,6 @@ input {
 }
 
 p#spacex-title-id {
-    /*border: 1px solid pink;*/
     width: 100%;
     height: fit-content;
     margin: auto;
@@ -67,7 +63,6 @@ p#spacex-title-id {
 }
 
 .banner > #space-shuttle-id {
-    /*background-color: black;*/
     width: fit-content;
     height: 50vw;
     position: absolute;
@@ -78,7 +73,6 @@ p#spacex-title-id {
 }
 
 .banner2 {
-    /*border: 3px solid blue;*/
     background-color: black;
     box-sizing: border-box;
     width: 100%;
@@ -95,7 +89,6 @@ p#spacex-title-id {
 }
 
 .banner2 .search-bar {
-    /*border: 3px solid blue;*/
     width: 80%;
     height: 4vw;
     margin: auto;
@@ -109,27 +102,24 @@ p#spacex-title-id {
 }
 
 #search-field-label-id {
-    /*border: 1px solid red;*/
     width: fit-content;
     height: fit-content;
     margin: auto 20px auto 20px;
     padding: 5px;
-    font-size: 2vw;
+    font-size: 1.5vw;
     color: white;
 }
 
 #search-by-label-id {
-    /*border: 1px solid red;*/
     width: fit-content;
     height: fit-content;
     margin: auto 20px auto 0px;
     padding: 5px;
-    font-size: 2vw;
+    font-size: 1.5vw;
     color: white;
 }
 
 #search-field {
-    /*border: 1px solid red;*/
     border-radius: 10px;
     width: 30%;
     height: 70%;
@@ -174,7 +164,6 @@ p#spacex-title-id {
     position: absolute;
     top: 16vw;
     left: 10%;
-    /*margin: 10vw auto;*/
     box-sizing: border-box;
     z-index: 2;
 }
