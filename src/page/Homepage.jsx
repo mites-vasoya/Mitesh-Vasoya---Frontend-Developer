@@ -80,6 +80,23 @@ class HomePage extends React.Component {
                     <img src={SpaceShuttle} alt="Space-Shuttle" id="space-shuttle-id"
                     />
                 </div>
+                <div className="banner2" id="banner2-id">
+                    <img src={SpaceImage} alt="Base Space Station Image" id="bg-img2-id"/>
+                    <div className="search-bar">
+                        <label htmlFor="search-field" id="search-field-label-id"> Search : </label>
+                        <input type="text" id="search-field"/>
+                        <label htmlFor="search-by" id="search-by-label-id">Search By : </label>
+                        <select name="search-type" id="search-type-option-id">
+                            <option value="status">Status</option>
+                            <option value="original_launch">Original Launch</option>
+                            <option value="type">Type</option>
+                        </select>
+                    </div>
+                    <div className="data-grid" id="data-grid-id">
+
+                    </div>
+                </div>
+
             </div>
         </>);
     }
