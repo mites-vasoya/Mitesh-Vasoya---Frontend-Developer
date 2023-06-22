@@ -1,0 +1,16 @@
+/*Homepage div*/
+.homepage {
+    /*border: 2px solid red;*/
+    width: 100%;
+    height: fit-content;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.homepage .banner {
+    border: 3px solid green;
+    width: 100%;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
