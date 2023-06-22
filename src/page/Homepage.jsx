@@ -27,7 +27,6 @@ class HomePage extends React.Component {
 
         if (window.scrollY === 0) {
             let bottom = 1.99
-            // banner.style.opacity = 1
             const bottomSetInterval = setInterval(() => {
                 if (bottom >= -2) {
                     bottom -= 0.2
@@ -39,6 +38,7 @@ class HomePage extends React.Component {
         } else if (window.scrollY === 2 * window.innerHeight) {
             banner2.style = `opacity : 1`
         } else {
+            //Set CSS on Scrolling...
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
             const maxScroll = 500;
             const maxScroll2 = 1000;
@@ -103,7 +103,6 @@ class HomePage extends React.Component {
 
     render() {
         const {scrollHeight, searchQuery, searchBy} = this.state;
-
         return (<>
             <div className="homepage" ref={this.scrollRef} onScroll={this.handleScroll}>
                 <div className="banner" id="banner-id">
@@ -116,7 +115,6 @@ class HomePage extends React.Component {
                 <div className="banner2" id="banner2-id">
                     <img src={SpaceImage} alt="Base Space Station Image" id="bg-img2-id"/>
                     <form id="search-form-id" onSubmit={this.handleSearchSubmit}>
-
                         <div className="search-bar">
                             <label htmlFor="search-by" id="search-by-label-id">Search By : </label>
                             <select name="searchBy" id="search-type-option-id" required={true}
