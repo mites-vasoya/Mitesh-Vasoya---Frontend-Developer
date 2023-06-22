@@ -7,7 +7,6 @@ import DataTable from "../components/DataTable";
 
 //Homepage component
 class HomePage extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -21,6 +20,7 @@ class HomePage extends React.Component {
 
     handleScroll = () => {
         const banner = document.getElementById("banner-id");
+        const banner2 = document.getElementById("banner2-id");
         const bgImg1 = document.getElementById("bg-img1-id");
         const bgImg2 = document.getElementById("bg-img2-id");
         const spaceShuttle = document.getElementById("space-shuttle-id");
@@ -37,7 +37,7 @@ class HomePage extends React.Component {
                 }
             }, 30)
         } else if (window.scrollY === 2 * window.innerHeight) {
-            bgImg2.style = `opacity :1`
+            banner2.style = `opacity : 1`
         } else {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
             const maxScroll = 500;
@@ -54,7 +54,8 @@ class HomePage extends React.Component {
             spaceShuttle.style = `transform : scale(${shuttleImgScale}); bottom : ${shuttleImgScale * 2}vw`
             banner.style.opacity = Math.abs(1 - (scrollTop) / 800);
 
-            bgImg2.style = `transform : scale(${bgImg2Scale}); opacity : ${Math.abs(1 - (1.5 - (scrollTop) / 800))}`
+            bgImg2.style = `transform : scale(${bgImg2Scale});`;
+            banner2.style = `opacity : ${Math.abs(1 - (1.5 - (scrollTop) / 400))}`;
         }
     };
 
@@ -139,7 +140,7 @@ class HomePage extends React.Component {
                                 <label htmlFor="search-field" id="search-field-label-id"> Reuse Counts
                                     : </label>
                                 <input type="number" id="search-field" name="searchQuery" value={searchQuery}
-                                       max="10" min="1"
+                                       max="10" min="0"
                                        onChange={this.handleInputChange}/>
                             </>) : (<>
                                     <label htmlFor="search-field" id="search-field-label-id"> Type
